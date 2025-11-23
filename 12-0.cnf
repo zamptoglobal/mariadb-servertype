@@ -1,21 +1,20 @@
-# MariaDB install database server configuration file.
+# MariaDB database server configuration file.
 !include /etc/mysql/mariadb.cnf
 !includedir /etc/mysql/conf.d/
 
 [client]
-port		= 3306
-socket		= /mnt/server/run/mysqld/mysqld.sock
+port		        = 3306
+socket		        = /home/container/run/mariadbd/mariadbd.sock
 
+# The MariaDB server
 [mysqld]
-pid-file	= /mnt/server/run/mariadbd/mariadbd.pid
-socket		= /mnt/server/run/mariadbd/mariadbd.sock
-port		= 3306
-basedir		= /usr
-datadir		= /mnt/server/mariadb
-tmpdir		= /tmp
-lc_messages_dir	= /usr/share/mysql
-lc_messages	= en_US
-skip-external-locking
+pid-file	        = /home/container/run/mariadbd/mariadbd.pid
+socket		        = /home/container/run/mariadbd/mariadbd.sock
+bind-address        = 0.0.0.0
+port		        = 3306
+datadir             = /home/container/mariadb
+language            = /usr/local/share/mysql/english
+log-basename        = mariadb
 
 #
 # * InnoDB
@@ -52,22 +51,21 @@ myisam_recover_options  = BACKUP
 key_buffer_size		    = 128M
 table_open_cache	    = 400
 myisam_sort_buffer_size	= 512M
-concurrent_insert       = 2
-read_buffer_size        = 2M
-read_rnd_buffer_size    = 1M
+concurrent_insert	    = 2
+read_buffer_size	    = 2M
+read_rnd_buffer_size	= 1M
 
 #
 # * Query Cache Configuration
 #
 # Cache only tiny result sets, so we can fit more in the query cache.
-query_cache_limit       = 128K
-query_cache_size        = 64M
+query_cache_limit		= 128K
+query_cache_size		= 64M
 # Enable logging by default to help find problems
-general_log_file        = /mnt/server/log/mariadb/mariadb.log
+general_log_file        = /home/container/log/mariadb/mariadb.log
 
-slow_query_log_file	    = /mnt/server/log/mariadb/mariadb-slow.log
+slow_query_log_file	    = /home/container/log/mariadb/mariadb-slow.log
 long_query_time         = 10
-
 expire_logs_days	    = 10
 max_binlog_size         = 100M 
 
@@ -80,7 +78,7 @@ max_allowed_packet	    = 16M
 #no-auto-rehash	# faster start of mariadb but no tab completion
 
 [isamchk]
-key_buffer		        = 16M
+key_buffer		    = 16M
 
 [mysqld]
-bind-address=0.0.0.0  
+bind-address=0.0.0.0
